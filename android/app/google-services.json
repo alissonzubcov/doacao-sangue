@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "949753636140",
+    "project_id": "homo-blood",
+    "storage_bucket": "homo-blood.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949753636140:android:16faa7753972b2309bb889",
+        "android_client_info": {
+          "package_name": "com.example.semana_info_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949753636140-sbe0jhb41os394fsbsdb8dq6kkfi0q0q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.semana_info_flutter",
+            "certificate_hash": "c077d754a399d99b4cc89daf04a19c90dc64994d"
+          }
+        },
+        {
+          "client_id": "949753636140-ik1pumps8t9goiam32ht4s9d78rdfplk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4-nUyvadAEOm3w9CLX5hqfKR24yUlsR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949753636140-ik1pumps8t9goiam32ht4s9d78rdfplk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

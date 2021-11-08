@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:semana_info_flutter/screens/historico_screen.dart';
+import 'package:semana_info_flutter/model/user_model.dart';
+import 'package:semana_info_flutter/screens/login_screen.dart';
 
 class HistoricoRegistroScreen extends StatefulWidget {
   @override
@@ -83,11 +84,22 @@ class _HistoricoRegistroScreenState extends State<HistoricoRegistroScreen> {
             ),
           )),
           ElevatedButton(
-              onPressed: () => {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => HistoricoScreen(),
-                    ))
-                  },
+              onPressed: () {
+                if (UserModel.of(context).isLoggedIn()) {
+                  HistoricoRegistrar hr = HistoricoRegistrar();
+
+                  hr.data = _dataControler.text;
+                  hr.observacao = _obsControlher.text;
+
+                  UserModel.of(context).addHistorico(hr);
+
+                  Navigator.of(context).pop();
+
+                } else {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                }
+              },
               child: Text("Salvar"))
         ],
       ),

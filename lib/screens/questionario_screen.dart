@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 import 'package:semana_info_flutter/data/data.dart';
+import 'package:semana_info_flutter/model/user_model.dart';
+import 'package:semana_info_flutter/screens/login_screen.dart';
 import 'package:semana_info_flutter/screens/realizar_doacao_screen.dart';
 
 class QuetionarioScreen extends StatefulWidget {
@@ -26,52 +28,91 @@ class _QuetionarioScreenState extends State<QuetionarioScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-        future: Firestore.instance.collection("questoes").getDocuments(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            if (perguntas.length == 0) {
-              perguntas = snapshot.data.documents
-                  .map((e) => Pergunta.fromFirebase(e))
-                  .toList();
+    if (UserModel.of(context).isLoggedIn()) {
+      return FutureBuilder<QuerySnapshot>(
+          future: Firestore.instance.collection("questoes").getDocuments(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              if (perguntas.length == 0) {
+                perguntas = snapshot.data.documents
+                    .map((e) => Pergunta.fromFirebase(e))
+                    .toList();
+              }
+              return Column(
+                children: [
+                  Expanded(
+                      child: SingleChildScrollView(
+                          child: Center(
+                    child: Column(
+                      children: perguntas
+                          .map((e) => questionCard(e.questao, e.resposta))
+                          .toList(),
+                    ),
+                  ))),
+                  ElevatedButton(
+                      onPressed: !verificarRespostas()
+                          //tela resposta negativa formulario
+                          ? null
+                          //tela resposta positiva formulario
+                          : () {
+                              if (verificaRespostasCertas()) {
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                  builder: (context) => RealizarDoacaoScreen(),
+                                ));
+                                //segue para tela de agendamento
+                              } else {
+                                // segue para tela explicando o motivo de não poder dar sequencia
+                              }
+                            },
+                      child: Text("Continua"))
+                ],
+              );
             }
-            return Column(
-                  children: [
-                    Expanded(
-                        child: SingleChildScrollView(
-                            child: Center(
-                      child: Column(
-                        children: perguntas
-                            .map((e) => questionCard(e.questao, e.resposta))
-                            .toList(),
-                      ),
-                    ))),
-                    ElevatedButton(
-                        onPressed: !verificarRespostas()
-                        //tela resposta negativa formulario
-                            ? null
-                            //tela resposta positiva formulario
-                            : () {
-                                if (verificaRespostasCertas()) {
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                    builder: (context) =>
-                                        RealizarDoacaoScreen(),
-                                  ));
-                                  //segue para tela de agendamento
-                                } else {
-                                  // segue para tela explicando o motivo de não poder dar sequencia
-                                }
-                              },
-                        child: Text("Continua"))
-                  ],
-                );
-          }
-        });
+          });
+    }else{
+      return Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.login,
+              size: 80.0,
+              color: Theme.of(context).primaryColor,
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Text(
+              "Faça o login para continuar!",
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            RaisedButton(
+              child: Text(
+                "Entrar",
+                style: TextStyle(fontSize: 18.0),
+              ),
+              textColor: Colors.white,
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+            )
+          ],
+        ),
+      );
+    }
   }
 
   Widget questionCard(String questao, bool resposta) {

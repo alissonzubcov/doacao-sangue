@@ -135,7 +135,7 @@ class CustomDrawer extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            FontAwesomeIcons.signInAlt,
+                            !model.isLoggedIn() ?FontAwesomeIcons.signInAlt : FontAwesomeIcons.signOutAlt,
                             size: 40,
                             color: Colors.white,
                           ),
@@ -144,7 +144,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           Text(
                               !model.isLoggedIn()
-                                  ? "Entre ou cadastre-se >"
+                                  ? "Entrar"
                                   : "Sair",
                               style:
                                   TextStyle(fontSize: 25, color: Colors.white)),

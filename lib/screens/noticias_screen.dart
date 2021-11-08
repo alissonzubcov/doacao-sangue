@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:semana_info_flutter/data/data.dart';
 import 'package:semana_info_flutter/entitys/noticia_entity.dart';
 import 'package:semana_info_flutter/widgets/card_noticia.dart';
-import 'package:semana_info_flutter/widgets/drawer_personalizado.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NoticiasScreen extends StatelessWidget {
   final List<NoticiaEntity> listaNoticias = getDefaultNoticias();

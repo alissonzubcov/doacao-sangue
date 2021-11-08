@@ -172,4 +172,22 @@ class UserModel extends Model {
     }
   */
   }
+
+
+  void addHistorico(HistoricoRegistrar historicoRegistrar){
+
+    Firestore.instance.collection("usuarios").document(firebaseUser.uid)
+      .collection("historico").add({'data': historicoRegistrar.data, 'observacao': historicoRegistrar.observacao}).then((doc){
+
+    });
+
+    notifyListeners();
+  }
+
+
+}
+
+class HistoricoRegistrar{
+  String data;
+  String observacao;
 }

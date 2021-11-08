@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:semana_info_flutter/data/data.dart';
 import 'package:semana_info_flutter/screens/leitura_noiticia_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class CardNoticia extends StatelessWidget {
   final DocumentSnapshot snapshot;
@@ -50,8 +49,7 @@ class CardNoticia extends StatelessWidget {
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           onPressed: () async {
-            //acessa tela de consulta de noticia por id
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
+            Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => LeituraNoticia(snapshot),
             ));
           },

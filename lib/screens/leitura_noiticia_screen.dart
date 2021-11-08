@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:semana_info_flutter/data/data.dart';
+import 'package:semana_info_flutter/screens/home_screen.dart';
 import 'package:semana_info_flutter/screens/noticias_screen.dart';
 
 class LeituraNoticia extends StatelessWidget {
@@ -45,8 +46,8 @@ class LeituraNoticia extends StatelessWidget {
               style: TextStyle(fontSize: 20, color: Colors.green),
             ),
             onPressed: () async {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => NoticiasScreen(),
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => HomeScreen(),
               ));
             },
           )

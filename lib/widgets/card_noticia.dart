@@ -1,13 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:semana_info_flutter/data/data.dart';
+import 'package:semana_info_flutter/screens/leitura_noiticia_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CardNoticia extends StatelessWidget {
-  final String urlImagem;
-  final String textoNoticia;
-  final String linkNoticia;
+  final DocumentSnapshot snapshot;
 
-  CardNoticia(this.urlImagem, this.textoNoticia, this.linkNoticia);
+  CardNoticia(this.snapshot);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class CardNoticia extends StatelessWidget {
                   width: 400,
                   margin: EdgeInsets.all(10),
                   child: Image.network(
-                    urlImagem,
+                    snapshot.data['imagemUrl'],
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -34,7 +34,7 @@ class CardNoticia extends StatelessWidget {
                   height: 60,
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Text(
-                    textoNoticia,
+                    snapshot.data['titulo'],
                     style: TextStyle(fontSize: 22, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
@@ -51,7 +51,9 @@ class CardNoticia extends StatelessWidget {
           ),
           onPressed: () async {
             //acessa tela de consulta de noticia por id
-            // await launch("$linkNoticia");
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => LeituraNoticia(snapshot),
+            ));
           },
         )
       ],

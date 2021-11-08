@@ -10,34 +10,16 @@ class HistoricoScreen extends StatefulWidget {
 class _HistoricoScreenState extends State<HistoricoScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFF9C1C1D),
-          title: Text("Histórico"),
-          centerTitle: true,
-          actions: <Widget>[],
-        ),
-        backgroundColor: Color(0xFF9C1C1D),
-        body: Column(
-          children: [
-            Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                children: [cardItemHistorico()],
-              ),
-            )),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => {
-                          Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => HistoricoRegistroScreen(),
-                    ))
-          },
-          backgroundColor: Colors.red,
-          child: Icon(FontAwesomeIcons.plus),
-        ),
-        );
+    return Column(
+      children: [
+        Expanded(
+            child: SingleChildScrollView(
+          child: Column(
+            children: [cardItemHistorico()],
+          ),
+        )),
+      ],
+    );
   }
 
   Widget cardItemHistorico() {
@@ -49,19 +31,26 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
         children: [
           Expanded(
               child: Container(
-                height: 80,
+            height: 80,
             child: Column(
-              children: [Text("Data", style: TextStyle(fontSize: 25, color: Colors.white ),), Text("10/10/2021", style: TextStyle(fontSize: 25, color: Colors.white)), ],
+              children: [
+                Text(
+                  "Data",
+                  style: TextStyle(fontSize: 25, color: Colors.white),
+                ),
+                Text("10/10/2021",
+                    style: TextStyle(fontSize: 25, color: Colors.white)),
+              ],
             ),
           )),
           Container(
             margin: EdgeInsets.only(right: 5),
             child: InkWell(
-            child: Icon(FontAwesomeIcons.trashAlt, color: Colors.white),
-            onTap: (){
-              print("Clicou");
-            },
-          ),
+              child: Icon(FontAwesomeIcons.trashAlt, color: Colors.white),
+              onTap: () {
+                print("Clicou");
+              },
+            ),
           )
         ],
       )),

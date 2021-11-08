@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
+import 'package:semana_info_flutter/data/data.dart';
 import 'package:semana_info_flutter/screens/realizar_doacao_screen.dart';
-
-import 'nao_pode_realizar_doacao_screen.dart';
 
 class QuetionarioScreen extends StatefulWidget {
   @override
@@ -15,65 +15,71 @@ class Pergunta {
   bool respostaEsperada;
 
   Pergunta(this.questao, this.resposta, this.respostaEsperada);
+
+  static fromFirebase(DocumentSnapshot d) {
+    return new Pergunta(d.data['pergunta'], null, d.data['respostaEsperada']);
+  }
 }
 
 class _QuetionarioScreenState extends State<QuetionarioScreen> {
-  List<Pergunta> perguntas = [
-    new Pergunta("Fumou nos ultimos 12 meses?", null, false),
-    new Pergunta("Fumou nos ultimos 6 meses?", null, false),
-    new Pergunta("Fumou nos ultimos 4 meses?", null, false),
-    new Pergunta("Fumou nos ultimos 2 meses?", null, false),
-  ];
+  List perguntas = [];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFF9C1C1D),
-          title: Text("Questionário"),
-          centerTitle: true,
-          actions: <Widget>[],
-        ),
-        backgroundColor: Color(0xFF9C1C1D),
-        body: Column(
-          children: [
-            Expanded(
-                child: SingleChildScrollView(
-                    child: Center(
-              child: Column(
-                children: perguntas
-                    .map((e) => questionCard(e.questao, e.resposta))
-                    .toList(),
-              ),
-            ))),
-            ElevatedButton(
-                onPressed: !verificarRespostas()
-                    ? null
-                    : () {
-                        if (verificaRespostasCertas()) {
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                            builder: (context) => RealizarDoacaoScreen(),
-                          ));
-                          //segue para tela de agendamento
-                        } else {
-                          // segue para tela explicando o motivo de não poder dar sequencia
-                           Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                            builder: (context) => NaoPodeRealizarDoacaoScreen(),
-                          ));
-                        }
-                      },
-                child: Text("Continua"))
-          ],
-        ));
+    return FutureBuilder<QuerySnapshot>(
+        future: Firestore.instance.collection("questoes").getDocuments(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            if (perguntas.length == 0) {
+              perguntas = snapshot.data.documents
+                  .map((e) => Pergunta.fromFirebase(e))
+                  .toList();
+            }
+            return Column(
+                  children: [
+                    Expanded(
+                        child: SingleChildScrollView(
+                            child: Center(
+                      child: Column(
+                        children: perguntas
+                            .map((e) => questionCard(e.questao, e.resposta))
+                            .toList(),
+                      ),
+                    ))),
+                    ElevatedButton(
+                        onPressed: !verificarRespostas()
+                        //tela resposta negativa formulario
+                            ? null
+                            //tela resposta positiva formulario
+                            : () {
+                                if (verificaRespostasCertas()) {
+                                  Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                    builder: (context) =>
+                                        RealizarDoacaoScreen(),
+                                  ));
+                                  //segue para tela de agendamento
+                                } else {
+                                  // segue para tela explicando o motivo de não poder dar sequencia
+                                }
+                              },
+                        child: Text("Continua"))
+                  ],
+                );
+          }
+        });
   }
 
   Widget questionCard(String questao, bool resposta) {
     return Container(
       margin: EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
-          color: Color(0xffD61E23), borderRadius: new BorderRadius.circular(25.0)),
+          color: Color(0xffD61E23),
+          borderRadius: new BorderRadius.circular(25.0)),
       height: 200,
       width: 400,
       child: Column(
@@ -105,6 +111,7 @@ class _QuetionarioScreenState extends State<QuetionarioScreen> {
                   if (e.questao == questao) {
                     e.resposta = resposta;
                   }
+                  print(e.resposta);
                 });
               });
             },
@@ -125,6 +132,7 @@ class _QuetionarioScreenState extends State<QuetionarioScreen> {
         condicao = false;
       }
     });
+    print('condicao' + condicao.toString());
 
     return condicao;
   }
@@ -132,7 +140,6 @@ class _QuetionarioScreenState extends State<QuetionarioScreen> {
   bool verificaRespostasCertas() {
     bool condicao = true;
     List<String> respostas = [];
-    Map retorno = {'respostasOK': false, 'respostas': []};
 
     perguntas.forEach((e) {
       if (e.resposta != e.respostaEsperada) {
@@ -140,7 +147,6 @@ class _QuetionarioScreenState extends State<QuetionarioScreen> {
         respostas.add(e.questao);
       }
     });
-    retorno = {'respostasOK': condicao, 'respostas': respostas};
     return condicao;
   }
 }

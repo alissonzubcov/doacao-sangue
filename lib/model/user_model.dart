@@ -1,10 +1,12 @@
-/*
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:semana_info_flutter/entitys/user_entity.dart';
+import 'package:semana_info_flutter/shared/form/usuario-form_model.dart';
+import 'package:semana_info_flutter/shared/model/usuario_model.dart';
 
 class UserModel extends Model {
   static FirebaseMessaging _messaging = new FirebaseMessaging();
@@ -17,8 +19,7 @@ class UserModel extends Model {
   bool isLoading = false;
 
   String _dispositivoID;
-  User usuario;
-
+  Usuario usuario;
 
   // pode usar em qualquer lugar do app (util quando só quer fazer uma verifiçao simples nos atributos)
   static UserModel of(BuildContext context) =>
@@ -28,66 +29,43 @@ class UserModel extends Model {
   void addListener(VoidCallback listener) {
     super.addListener(listener);
     _loadCurrentUser();
+    _getId();
     //_messaging.subscribeToTopic("all");
   }
 
-  //   //Cadastrar
-  // void signUp(
-  //     {@required Map<String, dynamic> userData,
-  //     @required String pass,
-  //     @required VoidCallback onSucees,
-  //     @required VoidCallback onFail}) async {
-  //   isLoading = true;
-
-  //   UsuarioFORM usuarioFORM = new UsuarioFORM();
-  //   usuarioFORM.nome = userData["name"];
-  //   usuarioFORM.sobrenome = userData["sobrenome"];
-  //   usuarioFORM.cpf = userData["cpf"];
-  //   usuarioFORM.email = userData["email"];
-  //   usuarioFORM.senha = pass;
-  //   usuarioFORM.dispositivo = _dispositivoID;
-
-  //   notifyListeners();
-
-  //   await UsuarioService.cadastrarIUsuario(usuarioFORM);
-
-  //   _auth
-  //       .createUserWithEmailAndPassword(
-  //           email: userData["email"], password: pass)
-  //       .then((user) async {
-  //     firebaseUser = user.user;
-  //     userData["UNIQUEID"] = _dispositivoID;
-  //     _messaging.subscribeToTopic(userData["cpf"]);
-  //     await _saveUserData(userData);
-
-  //     onSucees();
-  //     isLoading = false;
-  //     notifyListeners();
-  //   }).catchError((e) {
-  //     onFail();
-  //     isLoading = false;
-  //     notifyListeners();
-  //   });
-  // }
-
-
-
-    //Entrar
-  void signIn(
-      {@required String email,
+  //Cadastrar
+  void signUp(
+      {@required Map<String, dynamic> userData,
       @required String pass,
-      @required VoidCallback onSucess,
-      @required VoidCallback onFail}) {
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
+
+
     isLoading = true;
+
+    UsuarioFORM usuarioFORM = new UsuarioFORM();
+    usuarioFORM.nome = userData["name"];
+    usuarioFORM.sobrenome = userData["sobrenome"];
+    usuarioFORM.cpf = userData["cpf"];
+    usuarioFORM.email = userData["email"];
+    usuarioFORM.senha = pass;
+    usuarioFORM.dispositivo = _dispositivoID;
+
     notifyListeners();
 
+    // await UsuarioService.cadastrarIUsuario(usuarioFORM);
+
     _auth
-        .signInWithEmailAndPassword(email: email, password: pass)
+        .createUserWithEmailAndPassword(
+            email: userData["email"], password: pass)
         .then((user) async {
       firebaseUser = user.user;
+      userData["UNIQUEID"] = _dispositivoID;
+      // _messaging.subscribeToTopic(userData["cpf"]);
 
-      await _loadCurrentUser();
-      onSucess();
+      await _saveUserData(userData);
+
+      onSuccess();
       isLoading = false;
       notifyListeners();
     }).catchError((e) {
@@ -97,12 +75,38 @@ class UserModel extends Model {
     });
   }
 
+  //Entrar
+  void signIn(
+      {@required String email,
+      @required String pass,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) {
+
+    isLoading = true;
+    notifyListeners();
+
+    _auth
+        .signInWithEmailAndPassword(email: email, password: pass)
+        .then((user) async {
+      firebaseUser = user.user;
+
+      await _loadCurrentUser();
+
+      onSuccess();
+      isLoading = false;
+      notifyListeners();
+    }).catchError((e) {
+      onFail();
+      isLoading = false;
+      notifyListeners();
+    });
+  }
 
   void signOut() async {
     await _auth.signOut();
     userData = Map();
     usuario = null;
-    _messaging.unsubscribeFromTopic(userData["cpf"]);
+    // _messaging.unsubscribeFromTopic(userData["cpf"]);
     firebaseUser = null;
 
     notifyListeners();
@@ -116,13 +120,15 @@ class UserModel extends Model {
     return firebaseUser != null;
   }
 
+  Future<Null> _saveUserData(Map<String, dynamic> userData) async {
+    this.userData = userData;
+    await Firestore.instance
+        .collection("usuarios")
+        .document(firebaseUser.uid)
+        .setData(userData);
+  }
 
-
-
-
-
-
-    Future<Null> _loadCurrentUser() async {
+  Future<Null> _loadCurrentUser() async {
     if (firebaseUser == null) {
       firebaseUser = await _auth.currentUser();
     }
@@ -133,23 +139,37 @@ class UserModel extends Model {
             .document(firebaseUser.uid)
             .get();
         userData = docUser.data;
+        // usuario = docUser.data;
       }
     }
-    if (firebaseUser != null) {
-      if (usuario == null) {
-        if (userData != null) {
-          //usuario = await UsuarioService.buscarUsuarioByCPF(userData["cpf"]);
-          // UsuarioService.buscarUsuarioByCPF(userData["cpf"]).then((value) {
-          //   usuario = value;
-          //   print(value.id);
-          // });
-        }
-      }
-    }
+
     notifyListeners();
   }
 
+    void recoverPass(String email){
+    _auth.sendPasswordResetEmail(email: email);
+  }
+  
+  bool isLoggedIn(){
+    return firebaseUser != null;
+  }
 
+
+  Future<String> _getId() async {
+    String _idAndoid;
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+    _idAndoid = androidDeviceInfo.androidId;
+    _dispositivoID = _idAndoid;
+    return _idAndoid; // unique ID on Android
+
+    /*
+   if (Theme.of(context).platform == TargetPlatform.iOS) {
+    IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+    return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  } else {
+    // sorce android
+    }
+  */
+  }
 }
-
-*/

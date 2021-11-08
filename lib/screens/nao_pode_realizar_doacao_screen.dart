@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:semana_info_flutter/screens/home_screen.dart';
+import 'package:semana_info_flutter/screens/noticias_screen.dart';
 
 class NaoPodeRealizarDoacaoScreen extends StatelessWidget {
   @override
@@ -33,7 +33,7 @@ class NaoPodeRealizarDoacaoScreen extends StatelessWidget {
             ElevatedButton(
                 onPressed: () => {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
+                        builder: (context) => NoticiasScreen(),
                       ))
                     },
                 child: Text('Fechar'))

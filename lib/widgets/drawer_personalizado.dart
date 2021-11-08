@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:semana_info_flutter/screens/guia_doacao_.dart';
 import 'package:semana_info_flutter/screens/historico_screen.dart';
-import 'package:semana_info_flutter/screens/home_screen.dart';
+import 'package:semana_info_flutter/screens/noticias_screen.dart';
 import 'package:semana_info_flutter/screens/questionario_screen.dart';
 
 class DrawerPersonalizado extends StatelessWidget {
@@ -24,7 +24,7 @@ class DrawerPersonalizado extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 15),
+                margin: EdgeInsets.only(left: 25),
                 child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +49,7 @@ class DrawerPersonalizado extends StatelessWidget {
                   child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    itemMenu(context, HomeScreen(), FontAwesomeIcons.home,
+                    itemMenu(context, NoticiasScreen(), FontAwesomeIcons.home,
                         "Home"),
                     itemMenu(context, QuetionarioScreen(),
                         FontAwesomeIcons.tint, "Doar Sangue"),
@@ -57,6 +57,8 @@ class DrawerPersonalizado extends StatelessWidget {
                         "Guia De doação"),
                     itemMenu(context, HistoricoScreen(),
                         FontAwesomeIcons.calendarAlt, "Histórico"),
+                    itemMenu(context, HistoricoScreen(),
+                        FontAwesomeIcons.infoCircle, "Sobre"),
                   ],
                 ),
               )),

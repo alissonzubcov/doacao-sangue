@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:semana_info_flutter/screens/home_screen.dart';
+import 'package:semana_info_flutter/screens/noticias_screen.dart';
 
 class RealizarDoacaoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xFF9C1C1D),
           title: Text("Realizar Doação"),
           centerTitle: true,
           actions: <Widget>[],
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF9C1C1D),
         body: Column(
           children: [
             Container(
@@ -27,6 +29,10 @@ class RealizarDoacaoScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 25, color: Colors.white))),
             ElevatedButton(
                 onPressed: () => {
+                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      //   builder: (context) => NoticiasScreen(),
+                      // ))
+                      //Navigator.of(context).pop(),
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => HomeScreen(),
                       ))

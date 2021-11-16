@@ -46,16 +46,21 @@ class CustomDrawer extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(right: 15),
                                 child: Text(
-                                  "${!model.isLoggedIn() ? "SONIC" : model.userData["name"]}",
+                                  "${!model.isLoggedIn() ? "Faça Login" : model.userData["name"]}",
                                   style: TextStyle(
                                       fontSize: 30, color: Colors.white),
                                 ),
                               ),
-                              Image.network(
-                                  'https://www.clipartmax.com/png/middle/283-2835322_baby-sonic-by-hulkkidgaming-cartoon.png',
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child:  Image.network(
+                                  'https://firebasestorage.googleapis.com/v0/b/homo-blood.appspot.com/o/transferir.jpg?alt=media&token=04210d7e-8f4c-46d4-a586-93129054b699',
                                   fit: BoxFit.cover,
                                   width: 50,
-                                  height: 50)
+
+                                  height: 50),
+                              ),
+                             
                             ],
                           ),
                         );

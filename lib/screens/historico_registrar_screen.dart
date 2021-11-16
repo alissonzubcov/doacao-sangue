@@ -13,6 +13,7 @@ class _HistoricoRegistroScreenState extends State<HistoricoRegistroScreen> {
 
   final _dataControler = TextEditingController();
   final _obsControlher = TextEditingController();
+  final _localControlher = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,30 @@ class _HistoricoRegistroScreenState extends State<HistoricoRegistroScreen> {
                       ),
                       TextFormField(
                         style: new TextStyle(color: Colors.white),
+                        controller: _localControlher,
+                        decoration: InputDecoration(
+                          labelText: 'Local',
+                          labelStyle: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(30)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(30)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(color: Colors.white)),
+                        ),
+                        keyboardType: TextInputType.text,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      TextFormField(
+                        style: new TextStyle(color: Colors.white),
                         controller: _obsControlher,
                         decoration: InputDecoration(
                           labelText: 'Observação',
@@ -86,15 +111,17 @@ class _HistoricoRegistroScreenState extends State<HistoricoRegistroScreen> {
           ElevatedButton(
               onPressed: () {
                 if (UserModel.of(context).isLoggedIn()) {
-                  HistoricoRegistrar hr = HistoricoRegistrar();
+                  if ((_dataControler.text != "" && _obsControlher.text != "" && _localControlher.text != "")) {
+                    HistoricoRegistrar hr = HistoricoRegistrar();
 
-                  hr.data = _dataControler.text;
-                  hr.observacao = _obsControlher.text;
+                    hr.data = _dataControler.text;
+                    hr.observacao = _obsControlher.text;
+                    hr.local = _localControlher.text;
 
-                  UserModel.of(context).addHistorico(hr);
+                    UserModel.of(context).addHistorico(hr);
 
-                  Navigator.of(context).pop();
-
+                    Navigator.of(context).pop();
+                  }
                 } else {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => LoginScreen()));

@@ -39,8 +39,6 @@ class UserModel extends Model {
       @required String pass,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-
-
     isLoading = true;
 
     UsuarioFORM usuarioFORM = new UsuarioFORM();
@@ -81,7 +79,6 @@ class UserModel extends Model {
       @required String pass,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) {
-
     isLoading = true;
     notifyListeners();
 
@@ -146,14 +143,13 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-    void recoverPass(String email){
+  void recoverPass(String email) {
     _auth.sendPasswordResetEmail(email: email);
   }
-  
-  bool isLoggedIn(){
+
+  bool isLoggedIn() {
     return firebaseUser != null;
   }
-
 
   Future<String> _getId() async {
     String _idAndoid;
@@ -173,21 +169,91 @@ class UserModel extends Model {
   */
   }
 
+// TODO - mover
 
-  void addHistorico(HistoricoRegistrar historicoRegistrar){
-
-    Firestore.instance.collection("usuarios").document(firebaseUser.uid)
-      .collection("historico").add({'data': historicoRegistrar.data, 'observacao': historicoRegistrar.observacao}).then((doc){
-
-    });
+  void addHistorico(HistoricoRegistrar historicoRegistrar) {
+    Firestore.instance
+        .collection("usuarios")
+        .document(firebaseUser.uid)
+        .collection("historico")
+        .add(historicoRegistrar.toMap())
+        .then((doc) {});
 
     notifyListeners();
   }
 
+  void removeHistorico(String cid) async {
+    Firestore.instance
+        .collection("usuarios")
+        .document(firebaseUser.uid)
+        .collection("historico")
+        .document(cid)
+        .delete();
+    notifyListeners();
+  }
 
+  void addNoticia(NoticiaRegistrar noticiaRegistrar) {
+    Firestore.instance
+        .collection("noticias")
+        .add(noticiaRegistrar.toMap())
+        .then((doc) {});
+    notifyListeners();
+  }
+
+  void removeNoticia(String cid) async {
+    Firestore.instance.collection("noticias").document(cid).delete();
+    notifyListeners();
+  }
 }
 
-class HistoricoRegistrar{
+class HistoricoRegistrar {
   String data;
   String observacao;
+  String local;
+
+  HistoricoRegistrar();
+
+  HistoricoRegistrar.fromDocument(DocumentSnapshot snapshot) {
+    // id = snapshot.documentID;
+    data = snapshot.data["data"];
+    observacao = snapshot.data["observacao"];
+    local = snapshot.data["local"];
+    // adicionais = snapshot.data["adicionais"];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'data': data,
+      'observacao': observacao,
+      'local': local,
+    };
+  }
+}
+
+class NoticiaRegistrar {
+  String id;
+  String titulo;
+  String imagemUrl;
+  String texto;
+  String resumo;
+
+  NoticiaRegistrar();
+
+  NoticiaRegistrar.fromDocument(DocumentSnapshot snapshot) {
+    id = snapshot.documentID;
+    titulo = snapshot.data["titulo"];
+    imagemUrl = snapshot.data["imagemUrl"];
+    texto = snapshot.data["texto"];
+    resumo = snapshot.data["resumo"];
+    // adicionais = snapshot.data["adicionais"];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'titulo': titulo,
+      'imagemUrl': imagemUrl,
+      'texto': texto,
+      'resumo': resumo
+    };
+  }
 }

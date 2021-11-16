@@ -31,10 +31,10 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                   Expanded(
                       child: SingleChildScrollView(
                     child: Column(
-                      // children: [cardItemHistorico()],
                       children: snapshot.data.documents
-                              .map((e) => cardItemHistorico(e['data'], e['observacao']))
-                              .toList(),
+                          //.map((e) => cardItemHistorico(e['data'], e['observacao']))
+                          .map((e) => cardItemHistorico(e))
+                          .toList(),
                     ),
                   )),
                 ],
@@ -58,7 +58,10 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
             ),
             Text(
               "Faça o login para acompanhar!",
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -82,7 +85,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
     }
   }
 
-  Widget cardItemHistorico(String data, String obs) {
+  Widget cardItemHistorico(DocumentSnapshot data) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       color: Color(0xffD61E23),
@@ -91,15 +94,24 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
         children: [
           Expanded(
               child: Container(
-            height: 80,
+            height: 100,
             child: Column(
               children: [
                 Text(
                   "Data",
                   style: TextStyle(fontSize: 25, color: Colors.white),
                 ),
-                Text(data,
+                Text(data['data'],
                     style: TextStyle(fontSize: 25, color: Colors.white)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Local - ',
+                        style: TextStyle(fontSize: 25, color: Colors.white)),
+                    Text(data['local'],
+                        style: TextStyle(fontSize: 25, color: Colors.white)),
+                  ],
+                )
               ],
             ),
           )),
@@ -108,7 +120,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
             child: InkWell(
               child: Icon(FontAwesomeIcons.trashAlt, color: Colors.white),
               onTap: () {
-                print("Clicou");
+                UserModel.of(context).removeHistorico(data.documentID);
               },
             ),
           )

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:semana_info_flutter/model/user_model.dart';
+import 'package:semana_info_flutter/screens/area_adm_screen.dart';
 import 'package:semana_info_flutter/screens/guia_doacao_.dart';
 import 'package:semana_info_flutter/screens/historico_registrar_screen.dart';
 import 'package:semana_info_flutter/screens/historico_screen.dart';
 import 'package:semana_info_flutter/screens/noticias_screen.dart';
 import 'package:semana_info_flutter/screens/questionario_screen.dart';
+import 'package:semana_info_flutter/screens/sobre_screen.dart';
 import 'package:semana_info_flutter/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -49,23 +52,43 @@ class HomeScreen extends StatelessWidget {
           drawer: CustomDrawer(_pageController),
         ),
         Scaffold(
-           backgroundColor: Color(0xFF9C1C1D),
+            backgroundColor: Color(0xFF9C1C1D),
+            appBar: AppBar(
+              backgroundColor: Color(0xFF9C1C1D),
+              title: Text("Histórico"),
+              centerTitle: true,
+            ),
+            body: HistoricoScreen(),
+            drawer: CustomDrawer(_pageController),
+            floatingActionButton: FloatingActionButton(
+              onPressed: UserModel.of(context).isLoggedIn()
+                  ? () => {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => HistoricoRegistroScreen()))
+                      }
+                  : null,
+              backgroundColor: Colors.red,
+              child: Icon(FontAwesomeIcons.plus),
+            )),
+        Scaffold(
+          backgroundColor: Color(0xFF9C1C1D),
           appBar: AppBar(
-             backgroundColor: Color(0xFF9C1C1D),
-            title: Text("Histórico"),
+            backgroundColor: Color(0xFF9C1C1D),
+            title: Text("Sobre"),
             centerTitle: true,
           ),
-          body: HistoricoScreen(),
+          body: SobreScreen(),
           drawer: CustomDrawer(_pageController),
-                  floatingActionButton: FloatingActionButton(
-          onPressed: () => {
-                          Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => HistoricoRegistroScreen(),
-                    ))
-          },
-          backgroundColor: Colors.red,
-          child: Icon(FontAwesomeIcons.plus),
-        )
+        ),
+        Scaffold(
+          backgroundColor: Color(0xFF9C1C1D),
+          appBar: AppBar(
+            backgroundColor: Color(0xFF9C1C1D),
+            title: Text("Área Administratica"),
+            centerTitle: true,
+          ),
+          body: AreaAdmScreen(),
+          drawer: CustomDrawer(_pageController),
         )
       ],
     );

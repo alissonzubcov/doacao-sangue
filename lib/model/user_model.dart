@@ -59,6 +59,7 @@ class UserModel extends Model {
         .then((user) async {
       firebaseUser = user.user;
       userData["UNIQUEID"] = _dispositivoID;
+      userData["ADM"] = false;
       // _messaging.subscribeToTopic(userData["cpf"]);
 
       await _saveUserData(userData);

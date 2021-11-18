@@ -1,20 +1,13 @@
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:semana_info_flutter/model/user_model.dart';
 import 'package:semana_info_flutter/screens/home_screen.dart';
-import 'package:semana_info_flutter/shared/service/notificacao-service.dart';
-import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 
 void main() => runApp(new MyApp());
 
-@immutable
-class Message {
-  final String title;
-  final String body;
-  const Message({@required this.title, @required this.body});
-}
 
 void configurar() {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();

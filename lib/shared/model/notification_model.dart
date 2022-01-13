@@ -11,5 +11,5 @@
 class NotificationMessage {
   String title;
   String body;
-  String image;
+  // String image;
 }

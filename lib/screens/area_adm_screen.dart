@@ -15,10 +15,9 @@ class _AreaAdmScreenState extends State<AreaAdmScreen> {
               
               children: [
                   CardAreaAdmTile("Registrar Noticia", MenuAdm.REGISTRAR_NOTICIA),
-                  CardAreaAdmTile("Registrar Notificação", MenuAdm.REGISTRAR_NOTICIA ),
-                  CardAreaAdmTile("Promover Campanha", MenuAdm.REGISTRAR_NOTICIA),
-                  CardAreaAdmTile("Questionário Doador", MenuAdm.REGISTRAR_NOTICIA),
-                  CardAreaAdmTile("Guia de Doação", MenuAdm.REGISTRAR_NOTICIA),
+                  CardAreaAdmTile("Registrar Notificação", MenuAdm.REGISTRAR_NOTIFICACAO ),
+                  // CardAreaAdmTile("Questionário Doador", MenuAdm.REGISTRAR_NOTICIA),
+                  // CardAreaAdmTile("Guia de Doação", MenuAdm.REGISTRAR_NOTICIA),
               ],
             );
   }

@@ -6,14 +6,14 @@ import 'package:semana_info_flutter/shared/model/notification_model.dart';
 
 class NotificacaoService{
 
-  static Future<bool> registrarNotificacaoAll(NotificationMessage notificationMessage) async {
+  static Future<void> registrarNotificacaoAll(NotificationMessage notificationMessage) async {
     String _url = "https://fcm.googleapis.com/fcm/send";
     http.Response response;
 
     Map<dynamic, dynamic> notification = new  Map<dynamic, dynamic>();
     notification["title"] = notificationMessage.title;
     notification["body"] = notificationMessage.body;
-    notification["image"] = notificationMessage.image;
+    // notification["image"] = notificationMessage.image;
 
     Map<dynamic, dynamic> corpo = new  Map<dynamic, dynamic>();
 
@@ -28,6 +28,5 @@ class NotificacaoService{
         body: body);
     print(response.body);
     print('envio msg');
-    return false;
   }
 }

@@ -59,27 +59,27 @@ class _NoticiaRegistroScreenState extends State<NoticiaRegistroScreen> {
                       SizedBox(
                         height: 15,
                       ),
-                      TextFormField(
-                        style: new TextStyle(color: Colors.white),
-                        controller: _imagemControlher,
-                        decoration: InputDecoration(
-                          labelText: 'Imagem',
-                          labelStyle: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(30)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(30)),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(color: Colors.white)),
-                        ),
-                        keyboardType: TextInputType.text,
-                      ),
+                      // TextFormField(
+                      //   style: new TextStyle(color: Colors.white),
+                      //   controller: _imagemControlher,
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Imagem',
+                      //     labelStyle: TextStyle(
+                      //         color: Colors.white, fontWeight: FontWeight.bold),
+                      //     focusedBorder: OutlineInputBorder(
+                      //         borderSide: BorderSide(color: Colors.white)),
+                      //     disabledBorder: OutlineInputBorder(
+                      //         borderSide: BorderSide(color: Colors.white),
+                      //         borderRadius: BorderRadius.circular(30)),
+                      //     enabledBorder: OutlineInputBorder(
+                      //         borderSide: BorderSide(color: Colors.white),
+                      //         borderRadius: BorderRadius.circular(30)),
+                      //     border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(30),
+                      //         borderSide: BorderSide(color: Colors.white)),
+                      //   ),
+                      //   keyboardType: TextInputType.text,
+                      // ),
                       SizedBox(
                         height: 15,
                       ),

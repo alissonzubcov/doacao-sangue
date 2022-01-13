@@ -42,8 +42,8 @@
 29        android:debuggable="true"
 30        android:icon="@mipmap/ic_launcher"
 30-->D:\pic2021\projeto curso\android\app\src\main\AndroidManifest.xml:11:9-43
-31        android:label="semana_info_flutter" >
-31-->D:\pic2021\projeto curso\android\app\src\main\AndroidManifest.xml:10:9-44
+31        android:label="Doação de Sangue" >
+31-->D:\pic2021\projeto curso\android\app\src\main\AndroidManifest.xml:10:9-41
 32        <activity
 32-->D:\pic2021\projeto curso\android\app\src\main\AndroidManifest.xml:12:9-40:20
 33            android:name="com.example.semana_info_flutter.MainActivity"

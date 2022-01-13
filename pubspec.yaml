@@ -71,4 +71,4 @@ flutter:
 flutter_icons:
   android:  true #"launcher_icon"
   ios: true
-  image_path: "icons/icon.jpg"
+  image_path: "icons/doe-sangue-mix.png"

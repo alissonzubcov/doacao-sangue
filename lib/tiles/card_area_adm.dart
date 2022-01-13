@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:semana_info_flutter/model/user_model.dart';
 import 'package:semana_info_flutter/screens/area_adm_screen.dart';
 import 'package:semana_info_flutter/screens/noticia_registrar_screen.dart';
+import 'package:semana_info_flutter/screens/notificacao_registrar_screen.dart';
 
 //import 'package:transparent_image/transparent_image.dart';
 
@@ -28,6 +29,10 @@ CardAreaAdmTile(this.nome, this.acao);
             case MenuAdm.REGISTRAR_NOTICIA:
                     Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => NoticiaRegistroScreen()));
+            break;
+                        case MenuAdm.REGISTRAR_NOTIFICACAO:
+                    Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => NotificacaoRegistroScreen()));
             break;
           }
 

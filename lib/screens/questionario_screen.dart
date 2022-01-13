@@ -117,12 +117,16 @@ class _QuetionarioScreenState extends State<QuetionarioScreen> {
 
   Widget questionCard(String questao, bool resposta) {
     return Container(
-      margin: EdgeInsets.only(top: 5),
+      margin: EdgeInsets.only(top: 8),
       decoration: BoxDecoration(
+          gradient: LinearGradient(
+                  colors: [Colors.black12, Color(0xffD61E23)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter),
           color: Color(0xffD61E23),
           borderRadius: new BorderRadius.circular(25.0)),
-      height: 200,
-      width: 400,
+      height: 180,
+      width: 320,
       child: Column(
         children: [
           Expanded(
